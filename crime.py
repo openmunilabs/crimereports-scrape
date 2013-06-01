@@ -4,8 +4,12 @@ import urllib
 
 from lxml.html import parse
 
-url="http://news.arlingtonva.us/pr/ava/crime-report-may-21-2012-234244.aspx?ncid=29841"
-#url="http://news.arlingtonva.us/pr/ava/crime-reports-june-6-2011-207727.aspx?ncid=29841"
+
+#proto code to extract crimes list from single crime page for particular date
+
+
+url="http://news.arlingtonva.us/crime-report:-may-16-2013"
+#url="http://news.arlingtonva.us/crime-reports-april-27-2011-202323"
 
 crimes=[]
 stolen=[]
@@ -13,20 +17,22 @@ stolen=[]
 def get_crimes(url):
 
 	doc=parse(url).getroot()
-	reports=doc.cssselect('div.wrapContent div')
+	reports=doc.cssselect('div.wrapContent p span span')
+	
+	for r in reports:	
+		content=r.text_content().strip()
+		print content
 
-	reports=doc.cssselect('div.wrapContent')
-	
-	print reports[0].text_content()
-	
 	return
 
+"""
 	is_crime=True
 	is_auto=False
 	
 	buff=""
 	for r in reports:	
 		content=r.text_content().strip()
+		print content
 		if content=="REPORTS":
 			is_crime=True
 			is_auto=False
@@ -45,7 +51,7 @@ def get_crimes(url):
 				buff==""
 				print "auto: ", buff,"; ",content
 			
-
+"""
 get_crimes(url)
 
 print crimes
